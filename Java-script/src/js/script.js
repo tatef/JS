@@ -1,37 +1,23 @@
 'use strict';
-let money = +prompt("Ваш бюджет на месяц? Вводить только число.");
-let time = prompt("Введите дату в формате YYYY-MM-DD");
 
-let timeData = time;
+let money = +prompt("Ваш бюджет на месяц? Вводить только число."),
+time = prompt("Введите дату в формате YYYY-MM-DD"),
+answerOne = prompt("Введите обязательную статью расходов в этом месяце"),
+answerTwo = prompt("Во сколько обойдется?"),
+answerThree = prompt("Введите обязательную статью расходов в этом месяце"),
+answerFour = prompt("Во сколько обойдется?"),
+appData = {
+    budget : money,
+        timeData : time,
+        expenses : {
+            [answerOne]: answerTwo,
+            [answerThree]: answerFour
+        },
+        optionalExpenses : {},
+        income :[],
+        savings : false,
+},
+budget = money/30;
 
-
-let answerone = prompt("Введите обязательную статью расходов в этом месяце");
-let answertwo = prompt("Во сколько обойдется?"); 
-
-let expenses = {
-    "Ответ на первый вопрос":answerone,
-    "Ответ на второй вопрос":answertwo
-};
-
-let optionalExpenses;
-let income;
-let savings = false;
-
-var appData = {
-    money, 
-    timeData,
-    expenses,
-    optionalExpenses,
-    income,
-    savings  
-}
-
-let budget = money/30;
-
-console.log("Бюджет:", appData.money);
-console.log("Данные времени:", appData.timeData);
-console.log("Объект с обязательными расходами:", appData.expenses);
-console.log("Объект с необязательными расходами:", appData.optionalExpenses);
-console.log("Массив данных с доп. доходом:", appData.income);
-console.log("Свойство savings:", appData.savings);
+console.log("Бюджет:", appData);
 console.log("Ваш бюджет на 1 день :", budget);
