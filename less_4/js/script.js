@@ -177,6 +177,7 @@ let appData = {
   },
   chooseOptExpenses: function () {
     for (let i = 1; i < 4; i++) {
+      while (isNaN(i) || i == "" || i == null)
       appData.optionalExpenses[i] =
         prompt("Статья необязательных расходов?");
     }
@@ -187,7 +188,7 @@ let appData = {
       let items = prompt("Что принесет дополнительный доход?" +
         "(Перечислите через запятую)", "");
 
-      if (!isNaN(items) || items === null) {
+      if (!isNaN(items) || items === null || items == "" || items == null) {
         alert("Аргумент передан не как строка");
         i--;
       } else {
@@ -197,7 +198,7 @@ let appData = {
     for (let i = 0; i < 1; i++) {
       let others = prompt("Может что-то еще? (только одно)", "");
 
-      if (!isNaN(others) || others === null) {
+      if (!isNaN(others) || others === null || others == "" || others == null) {
         alert("Аргумент передан не как строка");
         i--;
 
