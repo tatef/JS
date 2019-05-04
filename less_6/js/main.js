@@ -9,7 +9,6 @@ let startBtn = document.getElementById("start"),
     yearSavingsValue = document.getElementsByClassName('yearsavings-value')[0],
     expensesItem = document.querySelectorAll('.expenses-item'),
     expensesBtn = document.getElementsByTagName('button')[0],
-    expensesItemBtn = document.querySelector('expenses-item-btn'),
     optionalExpensesBtn = document.getElementsByTagName('button')[1],
     countBtn = document.getElementsByTagName('button')[2],
     optionalExpensesItem = document.querySelectorAll('.optionalexpenses-item'),
@@ -20,7 +19,21 @@ let startBtn = document.getElementById("start"),
     yearValue = document.querySelector('.year-value'),
     monthValue = document.querySelector('.month-value'),
     dayValue = document.querySelector('.day-value'),
+    inputs = document.querySelectorAll('input'),
     money, time;
+for (let i = 0; i < inputs.length; i++) {
+    inputs[i].disabled = true;
+    inputs[i].style.opacity = .2;
+
+}
+expensesBtn.disabled = true;
+expensesBtn.style.opacity = .5;
+
+optionalExpensesBtn.disabled = true;
+optionalExpensesBtn.style.opacity = .5;
+
+countBtn.disabled = true;
+countBtn.style.opacity = .5;
 
 startBtn.addEventListener('click', function () {
     time = prompt("Введите дату в формате YYYY-MM-DD", '2019-10-10');
@@ -35,17 +48,49 @@ startBtn.addEventListener('click', function () {
     yearValue.value = new Date(Date.parse(time)).getFullYear();
     monthValue.value = new Date(Date.parse(time)).getMonth() + 1;
     dayValue.value = new Date(Date.parse(time)).getDate();
+    for (let i = 0; i < inputs.length; i++) {
+        inputs[i].disabled = false;
+        inputs[i].style.opacity = 1;
+
+    }
 });
-expensesItemBtn.disabled = true;
-for (let i = 0; i < expensesItem; i++) {
+for (let i = 0; i < expensesItem.length; i++) {
     expensesItem[i].addEventListener('input', function () {
         let expen1 = document.querySelector('#expenses_1'),
             expen2 = document.querySelector('#expenses_2'),
             expen3 = document.querySelector('#expenses_3'),
             expen4 = document.querySelector('#expenses_4');
         if (expen1.value != '' && expen2.value != '' && expen3.value != '' && expen4.value != '') {
-            expensesItemBtn = false;
-            expensesItem.style.opacity = 1;
+            expensesBtn = false;
+            expensesBtn.style.opacity = 1;
+        } 
+        else {
+            expensesBtn.setAttribute("disabled", true);
+            expensesBtn.style.opacity = .5;
+        }
+        if (expensesBtn == false && optionalExpensesBtn == false){
+            countBtn.disabled = false;
+            countBtn.style.opacity = 1;
+        }
+    });
+}
+for (let i = 0; i < expensesItem.length; i++) {
+    expensesItem[i].addEventListener('input', function () {
+        let expen1 = document.querySelector('#optionalexpenses_1'),
+            expen2 = document.querySelector('#optionalexpenses_2'),
+            expen3 = document.querySelector('#optionalexpenses_3'),
+            expen4 = document.querySelector('#optionalexpenses_4');
+        if (expen1.value != '' && expen2.value != '' && expen3.value != '' && expen4.value != '') {
+            optionalExpensesBtn = false;
+
+        } 
+        else {
+            optionalExpensesBtn.setAttribute("disabled", true);
+            optionalExpensesBtn.style.opacity = .5;
+        }
+        if (expensesBtn == false && optionalExpensesBtn == false) {
+            countBtn.disabled = false;
+            countBtn.style.opacity = 1;
         }
 
     });
