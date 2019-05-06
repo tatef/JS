@@ -61,34 +61,34 @@ for (let i = 0; i < expensesItem.length; i++) {
             expen3 = document.querySelector('#expenses_3'),
             expen4 = document.querySelector('#expenses_4');
         if (expen1.value != '' && expen2.value != '' && expen3.value != '' && expen4.value != '') {
-            expensesBtn = false;
+            expensesBtn.disabled = false;
             expensesBtn.style.opacity = 1;
         } 
         else {
             expensesBtn.setAttribute("disabled", true);
             expensesBtn.style.opacity = .5;
         }
-        if (expensesBtn == false && optionalExpensesBtn == false){
+        if (expensesBtn.disabled == false && optionalExpensesBtn.disabled == false){
             countBtn.disabled = false;
             countBtn.style.opacity = 1;
         }
     });
 }
-for (let i = 0; i < expensesItem.length; i++) {
-    expensesItem[i].addEventListener('input', function () {
+for (let i = 0; i < optionalExpensesItem.length; i++) {
+    optionalExpensesItem[i].addEventListener('input', function () {
         let expen1 = document.querySelector('#optionalexpenses_1'),
             expen2 = document.querySelector('#optionalexpenses_2'),
-            expen3 = document.querySelector('#optionalexpenses_3'),
-            expen4 = document.querySelector('#optionalexpenses_4');
-        if (expen1.value != '' && expen2.value != '' && expen3.value != '' && expen4.value != '') {
-            optionalExpensesBtn = false;
+            expen3 = document.querySelector('#optionalexpenses_3');
+        if (expen1.value != '' && expen2.value != '' && expen3.value != '') {
+            optionalExpensesBtn.disabled = false;
+            optionalExpensesBtn.style.opacity = 1;
 
         } 
         else {
             optionalExpensesBtn.setAttribute("disabled", true);
             optionalExpensesBtn.style.opacity = .5;
         }
-        if (expensesBtn == false && optionalExpensesBtn == false) {
+        if (expensesBtn.disabled == false && optionalExpensesBtn.disabled == false) {
             countBtn.disabled = false;
             countBtn.style.opacity = 1;
         }
