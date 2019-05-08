@@ -12,9 +12,9 @@ function main() {
     }
   }
 
-  firstInput.value = (date.getHours() + ':' +
-    date.getMinutes() + ':' +
+  firstInput.value = (addZero(date.getHours()) + ':' +
+    addZero(date.getMinutes()) + ':' +
     addZero(date.getSeconds()));
 }
 main();
-setInterval(main, 500);
+setInterval(main, 1000);
