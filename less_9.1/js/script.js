@@ -91,10 +91,11 @@ window.addEventListener('DOMContentLoaded', function(){
     document.body.style.overflow = "";
   });
 
-  descriptionBtn.forEach(descriptionBtn =>
+  descriptionBtn.forEach(descriptionBtn =>{
     descriptionBtn.addEventListener("click", function(){
       overlay.style.display = "block";
       more.classList.add("more-splash");
       document.body.style.overflow = "hidden";
-    }));
+    });
+  });
 });
