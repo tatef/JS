@@ -119,17 +119,6 @@ hideModal();
     statusMessage = document.createElement("div");
 
   statusMessage.classList.add("status");
-  // добавляем класс status
-
-  tel.addEventListener("keypress", event => {
-    if (!/[+\d]/.test(event.key)) {
-      event.preventDefault();
-    }
-  });
-
-
-
-
 function sendForm(elem)
   elem.addEventListener("submit", function(e) {
     e.preventDefault();
