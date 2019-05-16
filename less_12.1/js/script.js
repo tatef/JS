@@ -143,10 +143,9 @@ hideModal();
 
         request.open("POST", "server.php");
 
-        request.setRequestHeader("Content-type", +
-          "application/json; charset=utf-8");
+        request.setRequestHeader("Content-type", "application/json; charset=utf-8");
 
-        request.onreadystatechange = () => {
+        request.onreadystatechange =  function() {
           if (request.readyState < 4) {
             resolve();
           } else if (request.readyState === 4 && request.status == 200) {
@@ -159,7 +158,7 @@ hideModal();
       });
     }
 
-    const clearInput = () => {
+    function clearInput () {
       for (let i = 0; i < input.length; i++) {
         input[i].value = "";
       }
@@ -174,49 +173,7 @@ hideModal();
       .then(clearInput)
   });
 
-  tel2.addEventListener("keypress", event => {
-    if (!/[+\d]/.test(event.key)) {
-      event.preventDefault();
-    }
-  });
-
-
-
-  formLast.addEventListener("submit", (event) => {
-    event.preventDefault();
-    formLast.appendChild(statusMessage);
-    let formData = new FormData(formLast);
-
-    let request = new XMLHttpRequest();
-
-    request.open("POST", "server.php");
-
-    // с этим надо работать, если мы хотим отправить в JSON
-    request.setRequestHeader("Content-type", +
-      "application/json; charset=utf-8");
-
-    let obj = {};
-    formData.forEach(function (value, key) {
-      obj[key] = value;
-    });
-    let json = JSON.stringify(obj);
-    // с этим надо работать, если мы хотим отправить в JSON
-
-    request.send(json);
-
-    request.addEventListener("readystatechange", () => {
-      if (request.readyState < 4) {
-        statusMessage.innerHTML = message.loading;
-      } else if (request.readyState === 4 && request.status == 200) {
-        statusMessage.innerHTML = message.success;
-      } else {
-        statusMessage.innerHTML = message.failure;
-      }
-    });
-
-    for (let i = 0; i < input2.length; i++) {
-      input2[i].value = "";
-    }
-  }); 
+  sendForm(form);
+  sendForm(fomBottom);
 
 });
