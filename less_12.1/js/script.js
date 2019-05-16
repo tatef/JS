@@ -107,75 +107,103 @@ hideModal();
     success: "Спасибо. Cкоро мы с вами свяжемся.",
     failure: "Что-то пошло не так."
   };
+
   let form = document.querySelector(".main-form"),
-    input = form.querySelectorAll(".input"),
+    input = form.querySelectorAll("input"),
     tel = document.querySelector("#tel"),
+    tel2 = document.querySelector("#tel2"),
     formLast = document.querySelector("#form"),
-    input2 = document.querySelectorAll(".input"),
+    input2 = formLast.querySelectorAll("input"),
+
 
     statusMessage = document.createElement("div");
+
   statusMessage.classList.add("status");
   // добавляем класс status
+
   tel.addEventListener("keypress", event => {
-    if (!/\d/.test(event.key)) {
+    if (!/[+\d]/.test(event.key)) {
       event.preventDefault();
     }
   });
+
+
+
+
 
   form.addEventListener("submit", (event) => {
     event.preventDefault();
     form.appendChild(statusMessage);
-    let request = new XMLHttpRequest();
-    request.open("POST", "server.php");
-    request.setRequestHeader("Content-type", +
-      "application/json; charset=utf-8");
-    // request.setRequestHeader("Content-Type", 
-    // "application/x-www-form-urlencoded");
     let formData = new FormData(form);
-    let obj = {};
-    formData.forEach(function (value, key) {
-      obj[key] = value;
-    });
-    let json = JSON.stringify(obj);
 
-    request.send(json);
-    request.addEventListener("readystatechange", () => {
-      if (request.readyState < 4) {
-        statusMessage.innerHTML = message.loading;
-      } else if (request.readyState === 4 && request.status == 200) {
-        statusMessage.innerHTML = message.success;
-      } else {
-        statusMessage.innerHTML = message.failure;
-      }
-    });
-    for (let i = 0; i < input.length; i++) {
-      input[i].value = "";
+    function postData(data) {
+
+      return new Promise(function (resolve, reject) {
+        let request = new XMLHttpRequest();
+
+        request.open("POST", "server.php");
+
+        request.setRequestHeader("Content-type", +
+          "application/json; charset=utf-8");
+
+        request.onreadystatechange = () => {
+          if (request.readyState < 4) {
+            resolve();
+          } else if (request.readyState === 4 && request.status == 200) {
+            reject();
+          } else {
+            reject();
+          }
+        };
+        request.send(data);
+      });
     }
+
+    const clearInput = () => {
+      for (let i = 0; i < input.length; i++) {
+        input[i].value = "";
+      }
+    };
+
+    postData(formData)
+      .then(() => statusMessage.innerHTML = message.loading)
+      .then(() => {
+        statusMessage.innerHTML = "";
+      })
+      .catch(() => statusMessage.innerHTML = message.failure)
+      .then(clearInput)
   });
 
   tel2.addEventListener("keypress", event => {
-    if (!/\d/.test(event.key)) {
+    if (!/[+\d]/.test(event.key)) {
       event.preventDefault();
     }
   });
 
+
+
   formLast.addEventListener("submit", (event) => {
     event.preventDefault();
     formLast.appendChild(statusMessage);
+    let formData = new FormData(formLast);
+
     let request = new XMLHttpRequest();
+
     request.open("POST", "server.php");
 
     // с этим надо работать, если мы хотим отправить в JSON
     request.setRequestHeader("Content-type", +
       "application/json; charset=utf-8");
-    let formData = new FormData(formLast);
+
     let obj = {};
     formData.forEach(function (value, key) {
       obj[key] = value;
     });
     let json = JSON.stringify(obj);
     // с этим надо работать, если мы хотим отправить в JSON
+
     request.send(json);
+
     request.addEventListener("readystatechange", () => {
       if (request.readyState < 4) {
         statusMessage.innerHTML = message.loading;
@@ -185,6 +213,7 @@ hideModal();
         statusMessage.innerHTML = message.failure;
       }
     });
+
     for (let i = 0; i < input2.length; i++) {
       input2[i].value = "";
     }
