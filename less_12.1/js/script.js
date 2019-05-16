@@ -130,9 +130,9 @@ hideModal();
 
 
 
-
-  form.addEventListener("submit", (event) => {
-    event.preventDefault();
+function sendForm(elem)
+  elem.addEventListener("submit", function(e) {
+    e.preventDefault();
     form.appendChild(statusMessage);
     let formData = new FormData(form);
 
@@ -148,11 +148,13 @@ hideModal();
         request.onreadystatechange =  function() {
           if (request.readyState < 4) {
             resolve();
-          } else if (request.readyState === 4 && request.status == 200) {
-            reject();
+          } else if (request.readyState === 4) {
+            if(request.status == 200 && request.status < 300){
+              resolve()
           } else {
-            reject();
+            reject()
           }
+        }
         };
         let obj = {};
         formData.forEach(function (value, key) {
