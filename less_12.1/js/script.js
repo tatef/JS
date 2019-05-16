@@ -108,24 +108,18 @@ hideModal();
     failure: "Что-то пошло не так."
   };
 
-  let form = document.querySelector(".main-form"),
-    input = form.querySelectorAll("input"),
-    tel = document.querySelector("#tel"),
-    tel2 = document.querySelector("#tel2"),
-    formLast = document.querySelector("#form"),
-    input2 = formLast.querySelectorAll("input"),
-
-
+  let form = document.getElementsByClassName("main-form") [0],
+    formBottom = document.getElementById("form"),
+    input = document.getElementsByTagName("input"),
     statusMessage = document.createElement("div");
-
   statusMessage.classList.add("status");
-function sendForm(elem)
+function sendForm(elem){
   elem.addEventListener("submit", function(e) {
     e.preventDefault();
     form.appendChild(statusMessage);
     let formData = new FormData(form);
 
-    function postData(data) {
+    function postData() {
 
       return new Promise(function (resolve, reject) {
         let request = new XMLHttpRequest();
@@ -144,7 +138,7 @@ function sendForm(elem)
             reject()
           }
         }
-        };
+        }
         let obj = {};
         formData.forEach(function (value, key) {
           obj[key] = value;
@@ -168,8 +162,9 @@ function sendForm(elem)
       .catch(() => statusMessage.innerHTML = message.failure)
       .then(clearInput)
   });
+};
 
   sendForm(form);
-  sendForm(fomBottom);
+  sendForm(formBottom);
 
 });
