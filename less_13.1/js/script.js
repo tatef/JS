@@ -169,7 +169,6 @@ function sendForm(elem){
   // Слайдер
 
   let slideIndex = 1,
-    // Тот слайд, который показывается в текущий момент
     slides = document.querySelectorAll(".slider-item"),
     prev = document.querySelector(".prev"),
     next = document.querySelector(".next"),
