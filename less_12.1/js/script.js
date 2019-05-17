@@ -116,10 +116,10 @@ hideModal();
 function sendForm(elem){
   elem.addEventListener("submit", function(e) {
     e.preventDefault();
-    form.appendChild(statusMessage);
+    elem.appendChild(statusMessage);
     let formData = new FormData(form);
 
-    function postData() {
+    function postData(data) {
 
       return new Promise(function (resolve, reject) {
         let request = new XMLHttpRequest();
@@ -133,9 +133,9 @@ function sendForm(elem){
             resolve();
           } else if (request.readyState === 4) {
             if(request.status == 200 && request.status < 300){
-              resolve()
+              resolve();
           } else {
-            reject()
+            reject();
           }
         }
         }
