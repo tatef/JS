@@ -108,32 +108,15 @@ hideModal();
     failure: "Что-то пошло не так."
   };
 
-  let form = document.querySelector(".main-form"),
-    input = form.querySelectorAll("input"),
-    tel = document.querySelector("#tel"),
-    tel2 = document.querySelector("#tel2"),
-    formLast = document.querySelector("#form"),
-    input2 = formLast.querySelectorAll("input"),
-
-
+  let form = document.getElementsByClassName("main-form") [0],
+    formBottom = document.getElementById("form"),
+    input = document.getElementsByTagName("input"),
     statusMessage = document.createElement("div");
-
   statusMessage.classList.add("status");
-  // добавляем класс status
-
-  tel.addEventListener("keypress", event => {
-    if (!/[+\d]/.test(event.key)) {
-      event.preventDefault();
-    }
-  });
-
-
-
-
-
-  form.addEventListener("submit", (event) => {
-    event.preventDefault();
-    form.appendChild(statusMessage);
+function sendForm(elem){
+  elem.addEventListener("submit", function(e) {
+    e.preventDefault();
+    elem.appendChild(statusMessage);
     let formData = new FormData(form);
 
     function postData(data) {
@@ -143,23 +126,29 @@ hideModal();
 
         request.open("POST", "server.php");
 
-        request.setRequestHeader("Content-type", +
-          "application/json; charset=utf-8");
+        request.setRequestHeader("Content-type", "application/json; charset=utf-8");
 
-        request.onreadystatechange = () => {
+        request.onreadystatechange =  function() {
           if (request.readyState < 4) {
             resolve();
-          } else if (request.readyState === 4 && request.status == 200) {
-            reject();
+          } else if (request.readyState === 4) {
+            if(request.status == 200 && request.status < 300){
+              resolve();
           } else {
             reject();
           }
-        };
-        request.send(data);
+        }
+        }
+        let obj = {};
+        formData.forEach(function (value, key) {
+          obj[key] = value;
+        });
+        let json = JSON.stringify(obj);
+        request.send(json);
       });
     }
 
-    const clearInput = () => {
+    function clearInput () {
       for (let i = 0; i < input.length; i++) {
         input[i].value = "";
       }
@@ -168,55 +157,128 @@ hideModal();
     postData(formData)
       .then(() => statusMessage.innerHTML = message.loading)
       .then(() => {
-        statusMessage.innerHTML = "";
+        statusMessage.innerHTML = message.success;
       })
       .catch(() => statusMessage.innerHTML = message.failure)
       .then(clearInput)
   });
+};
 
-  tel2.addEventListener("keypress", event => {
-    if (!/[+\d]/.test(event.key)) {
+  sendForm(form);
+  sendForm(formBottom);
+  // Слайдер
+
+  let slideIndex = 1,
+    // Тот слайд, который показывается в текущий момент
+    slides = document.querySelectorAll(".slider-item"),
+    prev = document.querySelector(".prev"),
+    next = document.querySelector(".next"),
+    dotsWrap = document.querySelector(".slider-dots"),
+    dots = document.querySelectorAll(".dot");
+
+  let showSlides = (n) => {
+    if (n > slides.length) {
+      slideIndex = 1;
+    }
+
+    if (n < 1) {
+      slideIndex = slides.length;
+    }
+
+    slides.forEach((item) => {
+      item.style.display = "none";
+    });
+
+    dots.forEach((item) => {
+      item.classList.remove("dot-active");
+    });
+
+    slides[slideIndex - 1].style.display = "block";
+    dots[slideIndex - 1].classList.add("dot-active");
+  };
+  showSlides();
+
+  let plusSlides = (n) => {
+    showSlides(slideIndex += n);
+  };
+
+  let currentSlide = (n) => {
+    showSlides(slideIndex = n);
+  };
+
+  prev.addEventListener("click", () => {
+    plusSlides(-1);
+  });
+
+  next.addEventListener("click", () => {
+    plusSlides(1);
+  });
+
+  // Решение проблему с точками
+
+  dotsWrap.addEventListener("click", (event) => {
+    for (let i = 0; i < dots.length + 1; i++) {
+      if (event.target.classList.contains("dot") &&
+        event.target == dots[i - 1]) {
+        currentSlide(i);
+      }
+    }
+  });
+
+  // Калькулятор
+
+  let persons = document.querySelectorAll(".counter-block-input")[0],
+    restDays = document.querySelectorAll(".counter-block-input")[1],
+    place = document.querySelector("#select"),
+    totalValue = document.querySelector("#total"),
+    personsSum = 0,
+    daysSum = 0,
+    total = 0;
+
+  totalValue.innerHTML = 0;
+
+  persons.addEventListener("input", function () {
+    personsSum = +this.value;
+    total = (daysSum + personsSum) * 4000;
+
+    if (restDays.value == "" || persons.value == "" ||
+      persons.value % 1 !== 0 || restDays.value % 1 !== 0) {
+      totalValue.innerHTML = 0;
+    } else {
+      totalValue.innerHTML = total;
+    }
+  });
+
+  restDays.addEventListener("input", function () {
+    daysSum = +this.value;
+    total = (daysSum + personsSum) * 4000;
+
+    if (restDays.value == "" || persons.value == "" ||
+      persons.value % 1 !== 0 || restDays.value % 1 !== 0) {
+      totalValue.innerHTML = 0;
+    } else {
+      totalValue.innerHTML = total;
+    }
+  });
+
+  persons.addEventListener("keypress", event => {
+    if (!/[\d]/.test(event.key)) {
       event.preventDefault();
     }
   });
 
-
-
-  formLast.addEventListener("submit", (event) => {
-    event.preventDefault();
-    formLast.appendChild(statusMessage);
-    let formData = new FormData(formLast);
-
-    let request = new XMLHttpRequest();
-
-    request.open("POST", "server.php");
-
-    // с этим надо работать, если мы хотим отправить в JSON
-    request.setRequestHeader("Content-type", +
-      "application/json; charset=utf-8");
-
-    let obj = {};
-    formData.forEach(function (value, key) {
-      obj[key] = value;
-    });
-    let json = JSON.stringify(obj);
-    // с этим надо работать, если мы хотим отправить в JSON
-
-    request.send(json);
-
-    request.addEventListener("readystatechange", () => {
-      if (request.readyState < 4) {
-        statusMessage.innerHTML = message.loading;
-      } else if (request.readyState === 4 && request.status == 200) {
-        statusMessage.innerHTML = message.success;
-      } else {
-        statusMessage.innerHTML = message.failure;
-      }
-    });
-
-    for (let i = 0; i < input2.length; i++) {
-      input2[i].value = "";
+  restDays.addEventListener("keypress", event => {
+    if (!/[\d]/.test(event.key)) {
+      event.preventDefault();
     }
   });
 
+  place.addEventListener("change", function () {
+    if (restDays.value == "" || persons.value == "") {
+      totalValue.innerHTML = 0;
+    } else {
+      let a = total;
+      totalValue.innerHTML = a * this.options[this.selectedIndex].value;
+    }
+  }); 
 });
