@@ -192,7 +192,7 @@ window.addEventListener("DOMContentLoaded", () => {
         dotsWrap = document.querySelector(".slider-dots"),
         dots = document.querySelectorAll(".dot");
 
-    let showSlides = (n) => {
+    function showSlides(n) {
         if (n > slides.length) {
             slideIndex = 1;
         }
@@ -212,13 +212,13 @@ window.addEventListener("DOMContentLoaded", () => {
         slides[slideIndex - 1].style.display = "block";
         dots[slideIndex - 1].classList.add("dot-active");
     };
-    showSlides();
+    showSlides(slideIndex);
 
-    let plusSlides = (n) => {
+    function plusSlides(n) {
         showSlides(slideIndex += n);
     };
 
-    let currentSlide = (n) => {
+    function currentSlide(n) {
         showSlides(slideIndex = n);
     };
 
@@ -232,7 +232,7 @@ window.addEventListener("DOMContentLoaded", () => {
 
     // Решение проблему с точками
 
-    dotsWrap.addEventListener("click", (event) => {
+    dotsWrap.addEventListener("click", function(event) {
         for (let i = 0; i < dots.length + 1; i++) {
             if (event.target.classList.contains("dot") &&
                 event.target == dots[i - 1]) {
