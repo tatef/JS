@@ -255,7 +255,7 @@ window.addEventListener("DOMContentLoaded", () => {
 
     persons.addEventListener("input", function () {
         personsSum = +this.value;
-        total = (daysSum + personsSum) * 4000;
+        total = (daysSum * personsSum) * 4000;
 
         if (restDays.value == "" || persons.value == "" ||
             persons.value % 1 !== 0 || restDays.value % 1 !== 0) {
@@ -267,7 +267,7 @@ window.addEventListener("DOMContentLoaded", () => {
 
     restDays.addEventListener("input", function () {
         daysSum = +this.value;
-        total = (daysSum + personsSum) * 4000;
+        total = (daysSum * personsSum) * 4000;
 
         if (restDays.value == "" || persons.value == "" ||
             persons.value % 1 !== 0 || restDays.value % 1 !== 0) {
@@ -290,7 +290,7 @@ window.addEventListener("DOMContentLoaded", () => {
     });
 
     place.addEventListener("change", function () {
-        if (restDays.value == "" || persons.value == "") {
+        if (restDays.value == "" || persons.value == "" || persons.value == 0) {
             totalValue.innerHTML = 0;
         } else {
             let a = total;
