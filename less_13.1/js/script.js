@@ -257,11 +257,11 @@ window.addEventListener("DOMContentLoaded", () => {
         personsSum = +this.value;
         total = (daysSum * personsSum) * 4000;
 
-        if (restDays.value == "" || persons.value == "" ||
-            persons.value % 1 !== 0 || restDays.value % 1 !== 0) {
+        if (restDays.value == "" || persons.value == "" &&
+            persons.value != 0 && restDays.value != 0) {
             totalValue.innerHTML = 0;
         } else {
-            totalValue.innerHTML = total;
+            totalValue.innerHTML = total * place.options[place.selectedIndex].value;
         }
     });
 
@@ -269,15 +269,25 @@ window.addEventListener("DOMContentLoaded", () => {
         daysSum = +this.value;
         total = (daysSum * personsSum) * 4000;
 
-        if (restDays.value == "" || persons.value == "" ||
-            persons.value % 1 !== 0 || restDays.value % 1 !== 0) {
+        if (restDays.value == "" || persons.value == "" &&
+            persons.value != 0 && restDays.value != 0) {
             totalValue.innerHTML = 0;
         } else {
-            totalValue.innerHTML = total;
+            totalValue.innerHTML = total * place.options[place.selectedIndex].value;
         }
     });
 
-    persons.addEventListener("keypress", event => {
+    
+
+    place.addEventListener("change", function () {
+        if (restDays.value == "" || persons.value == "" ) {
+            totalValue.innerHTML = 0;
+        } else {
+            let a = total;
+            totalValue.innerHTML = a * this.options[this.selectedIndex].value;
+        }
+    });
+persons.addEventListener("keypress", event => {
         if (!/[\d]/.test(event.key)) {
             event.preventDefault();
         }
@@ -288,14 +298,4 @@ window.addEventListener("DOMContentLoaded", () => {
             event.preventDefault();
         }
     });
-
-    place.addEventListener("change", function () {
-        if (restDays.value == "" || persons.value == "" || persons.value == 0) {
-            totalValue.innerHTML = 0;
-        } else {
-            let a = total;
-            totalValue.innerHTML = a * this.options[this.selectedIndex].value;
-        }
-    });
-
 });
