@@ -287,15 +287,11 @@ window.addEventListener("DOMContentLoaded", () => {
             totalValue.innerHTML = a * this.options[this.selectedIndex].value;
         }
     });
-persons.addEventListener("keypress", event => {
-        if (!/[\d]/.test(event.key)) {
-            event.preventDefault();
-        }
-    });
-
-    restDays.addEventListener("keypress", event => {
-        if (!/[\d]/.test(event.key)) {
-            event.preventDefault();
-        }
+    document.querySelectorAll('.counter-block-input').forEach(item => {
+        item.addEventListener('keypress', () => {
+            if (item.value.match(/[^0-9]|^0{1}/g)) {
+                item.value = item.value.replace(/./g, '');
+            }
+        });
     });
 });
